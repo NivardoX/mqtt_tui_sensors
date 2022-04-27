@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	"os"
 )
 
 type Handler struct {
@@ -11,13 +12,18 @@ type Handler struct {
 	topic  string
 }
 
+func getEnv(key string, fallback string) string {
+	var env = os.Getenv(key)
+	if env == "" {
+		env = fallback
+	}
+	return env
+}
 func NewMqttHandler(topic string, onMessage func(data sensorData)) *Handler {
-	var broker = "localhost"
-	var port = 1883
+	var broker = getEnv("MQTT_BROKER_URL", "localhost")
+	var port = getEnv("MQTT_BROKER_PORT", "1883")
 	opts := mqtt.NewClientOptions()
-	opts.AddBroker(fmt.Sprintf("tcp://%s:%d", broker, port))
-	opts.SetUsername("emqx")
-	opts.SetPassword("public")
+	opts.AddBroker(fmt.Sprintf("tcp://%s:%s", broker, port))
 	opts.SetDefaultPublishHandler((*Handler)(nil).getMessagePubHandler(topic, onMessage))
 	client := mqtt.NewClient(opts)
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
