@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+  vernemq:
+    container_name: vernemq_tui
+    image: vernemq/vernemq:latest
+    environment:
+      - DOCKER_VERNEMQ_DISCOVERY_NODE=${DISCOVERY_NODE:-}
+      - DOCKER_VERNEMQ_ACCEPT_EULA=yes
+      - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
+    ports:
+      - 1883:1883
+
+
+networks:
+  default:
