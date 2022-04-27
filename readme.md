@@ -20,4 +20,4 @@ You'll need to inform a identifier and threshold values.
 
 As this is terminal based, to exit simply press `ctrl+c`
 
-Author: Nivardo Albuquerque Leitão de Castro Find me at nivardo00@gmail.com or github.com/nivardox.
+Author: `Nivardo Albuquerque Leitão de Castro` Find me at `nivardo00@gmail.com` or `github.com/nivardox`.
